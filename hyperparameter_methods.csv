@@ -1,0 +1,32 @@
+Category,Name,Role,Location,Default value,Benchmark
+Function library,library.degree,Maximum degree of polynomial monomials in the SINDy library,YAML > 1_sparse > library_features.py / library_names.py,2,Yes
+Function library,library.include_bias,Include a constant term (1) in the library,YAML > 1_sparse > library_features.py,False,Yes
+Function library,library.include_mm,Include Michaelis-Menten terms x_i/(K+x_j) in the library,YAML > 1_sparse > library_features.py,False,Yes
+Prior selection,sparse_prior.type,Type of sparse prior: horseshoe (Finnish regularized horseshoe) or spike_and_slab (grouped spike-and-slab with MixtureGeneral),YAML > 1_sparse > model.py,horseshoe,Yes
+Horseshoe prior,sparse_prior.tau0,Global scale of the HalfCauchy prior on tau (horseshoe) -- controls the overall sparsity level,YAML > 1_sparse > model.py > priors.py:grouped_horseshoe_prior,1.0,Yes
+Horseshoe prior,sparse_prior.slab_scale,"Slab scale for the regularized horseshoe (Piironen & Vehtari). None = standard horseshoe, >0 = regularized",YAML > 1_sparse > model.py > priors.py:grouped_horseshoe_prior,None,Yes
+Horseshoe prior,sparse_prior.degree_penalty,Exponent p for degree-dependent penalty: lambda_k ~ HalfCauchy(1/d^p). YAML boolean mapped to 1.0 (true) or 0.0 (false),YAML > 1_sparse L576 > model.py > priors.py:grouped_horseshoe_prior,"1.0 if true, 0.0 if false",Yes
+Spike-and-slab prior,sparse_prior.spike_sd,Standard deviation of the spike component (near-zero coefficients),YAML > 1_sparse > model.py > priors.py:grouped_spike_and_slab_prior,0.01,Yes
+Spike-and-slab prior,sparse_prior.slab_sd,Standard deviation of the slab component (non-zero coefficients),YAML > 1_sparse > model.py > priors.py:grouped_spike_and_slab_prior,1.0,Yes
+Spike-and-slab prior,sparse_prior.theta_a,Alpha parameter for the Beta prior on per-feature mixing weight theta_k,YAML > 1_sparse > model.py > priors.py:grouped_spike_and_slab_prior,1.0,Yes
+Spike-and-slab prior,sparse_prior.theta_b,Beta parameter for the Beta prior on per-feature mixing weight theta_k,YAML > 1_sparse > model.py > priors.py:grouped_spike_and_slab_prior,1.0,Yes
+MCMC / NUTS,mcmc.num_warmup,Number of warmup (adaptation) iterations per MCMC chain,YAML mcmc > fit_runner.py / refit_runner.py,(set by YAML),Yes
+MCMC / NUTS,mcmc.num_samples,Number of posterior samples per chain after warmup,YAML mcmc > fit_runner.py / refit_runner.py,(set by YAML),Yes
+MCMC / NUTS,mcmc.num_chains,Number of parallel MCMC chains,YAML mcmc > 1_sparse L43 / 2_refit L50,4,Yes
+MCMC / NUTS,mcmc.thinning,Thinning factor for chains (keep 1-out-of-N),YAML mcmc > fit_runner.py L54 / refit_runner.py L218,1,Yes
+MCMC / NUTS,mcmc.target_accept,Target acceptance probability for NUTS (step size adaptation),YAML mcmc > fit_runner.py L69 / refit_runner.py L228,0.8,Yes
+MCMC / NUTS,mcmc.max_treedepth,Maximum NUTS tree depth (2^d leapfrog steps max),YAML mcmc > fit_runner.py L70 / refit_runner.py L229,6,Yes
+ODE solver,integrator.shooting,Shooting method: single (direct integration) or multiple (latent z per segment),YAML integrator > model.py / model_refit.py,single,Yes
+ODE solver,integrator.segments,Number of segments for multiple shooting (None = one z per observation time point),YAML integrator > model.py:build_segment_shooting_arrays,None,Yes
+ODE solver,integrator.rtol,Relative tolerance for the adaptive PIDController,YAML integrator > integrator.py L134,1e-7,Yes
+ODE solver,integrator.atol,Absolute tolerance for the adaptive PIDController,YAML integrator > integrator.py L134,1e-9,Yes
+ODE solver,integrator.max_steps,Maximum number of ODE solver steps per integration. None = max(256*(T-1); 4096),YAML integrator > integrator.py L117-119,None (adaptive),Yes
+Multiple shooting,shooting_scale,Standard deviation of the continuity constraint Normal(0; shooting_scale) between segments,model.py L148 / model_refit.py L50,0.02,Yes
+Multiple shooting,model.segments,Number of segments when invalid input (0 or negative),model.py L65,5,No
+Term selection,selection.strategy,Selection strategy: {method}_{aggregation}. Methods: ci_nonzero; median; mean; prob_nonzero; kappa; one_minus_kappa; lambda; incl_prob. Aggregation: global; and; or. incl_prob is specific to spike-and-slab prior,YAML selection > 1_sparse > selection.py,ci_nonzero_global,Yes
+Term selection,selection.threshold,Selection threshold (meaning depends on method): ci_nonzero=min CI strength; median/mean=min |val|; prob_nonzero=min directional prob; kappa=max E[kappa]; etc.,YAML selection > 1_sparse > selection.py,0.0,Yes
+Term selection,selection.hyperparameter,Strategy-specific hyperparameter. For ci_nonzero: credible interval level (e.g. 0.95 = 95% CI),YAML selection > 1_sparse > selection.py,0.95,Yes
+Init (sparse),init.strategy,Initialization strategy: regression (frequentist multi-start) or median (NumPyro init_to_median),YAML initialization > fit_runner.py,regression,Yes
+Data generation,observations.noise_fraction,Fraction of the per-species max used as observation noise standard deviation,YAML observations > simulate.py:make_observations,(set by YAML),Yes
+Data generation,observations.replicates,Number of biological replicates per observation time point,YAML observations > simulate.py:make_observations,(set by YAML),Yes
+Time,time.T,Number of time points for simulation and observations,YAML time,(set by YAML),Yes
