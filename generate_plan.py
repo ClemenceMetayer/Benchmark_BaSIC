@@ -41,8 +41,8 @@ BASELINE_HORSESHOE = {
     "selection.hyperparameter": 0.95,
     # Library
     "library.degree": 2,
-    "library.include_bias": False,
-    "library.include_mm": False,
+    "library.include_bias": "",
+    "library.include_mm": "",
     # Integrator
     "integrator.shooting": "multiple",
     "integrator.segments": 5,
@@ -194,8 +194,12 @@ def generate_plan():
                           label, f"degree=3 ({tag})"))
         runs.append(_vary(base, {"library.include_bias": True},
                           label, f"include_bias=True ({tag})"))
+        runs.append(_vary(base, {"library.include_bias": False},
+                          label, f"include_bias=False ({tag})"))
         runs.append(_vary(base, {"library.include_mm": True},
                           label, f"include_mm=True ({tag})"))
+        runs.append(_vary(base, {"library.include_mm": False},
+                          label, f"include_mm=False ({tag})"))
 
     # ── Integrator variations (both baselines) ─────────────
     for label, base in [("integrator_hs", HS), ("integrator_ss", SS)]:
