@@ -50,7 +50,9 @@ def get_available_systems():
     return systems
 
 
-def load_plan(csv_path="experiment_plan.csv"):
+def load_plan(csv_path=None):
+    if csv_path is None:
+        csv_path = str(BENCHMARK_DIR / "config" / "experiment_plan.csv")
     """Load hyperparameter configurations from the experiment plan CSV."""
     runs = []
     with open(csv_path, "r", newline="") as f:
@@ -305,7 +307,7 @@ def run_single_experiment(system_name, run_config, skip_refit=False,
         # ── Step 2: Benchmark metrics ──
         if not skip_metrics:
             cmd_metrics = [
-                python, str(BENCHMARK_DIR / "benchmark_metrics.py"),
+                python, str(BENCHMARK_DIR / "metrics" / "benchmark_metrics.py"),
                 "--outdir", str(outdir),
                 "--yaml", str(temp_yaml),
             ]
@@ -342,8 +344,8 @@ def main():
         help="Run IDs to execute (default: all). E.g.: --runs 0 1 2"
     )
     parser.add_argument(
-        "--plan", default="experiment_plan.csv",
-        help="Path to experiment plan CSV (default: experiment_plan.csv)"
+        "--plan", default=str(BENCHMARK_DIR / "config" / "experiment_plan.csv"),
+        help="Path to experiment plan CSV (default: config/experiment_plan.csv)"
     )
     parser.add_argument(
         "--workers", type=int, default=1,

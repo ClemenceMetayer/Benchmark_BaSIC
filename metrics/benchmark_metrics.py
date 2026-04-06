@@ -22,7 +22,8 @@ from typing import Dict, List, Tuple
 import numpy as np
 
 # ── Add BaSIC to sys.path so we can import its modules ──
-BASIC_DIR = Path(__file__).resolve().parent.parent / "3. BaSIC"
+BENCHMARK_DIR = Path(__file__).resolve().parent.parent
+BASIC_DIR = BENCHMARK_DIR.parent / "3. BaSIC"
 if str(BASIC_DIR) not in sys.path:
     sys.path.insert(0, str(BASIC_DIR))
 

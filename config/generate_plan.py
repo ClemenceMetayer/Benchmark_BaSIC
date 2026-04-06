@@ -317,8 +317,9 @@ def write_csv(runs, output_path):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", "-o", default="experiment_plan.csv",
-                        help="Output CSV path (default: experiment_plan.csv)")
+    default_output = str(Path(__file__).resolve().parent / "experiment_plan.csv")
+    parser.add_argument("--output", "-o", default=default_output,
+                        help="Output CSV path (default: config/experiment_plan.csv)")
     args = parser.parse_args()
 
     runs = generate_plan()

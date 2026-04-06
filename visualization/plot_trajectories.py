@@ -1,10 +1,12 @@
 """Plot trajectories of all 5 BaSIC ODE systems for every condition."""
 
 import sys, os
+from pathlib import Path
 os.environ["JAX_ENABLE_X64"] = "1"
 
 # Run from the BaSIC directory so that imports work
-BASIC_DIR = "/Users/clemencemetayer/Documents/Doctorat/13. BASIC/3. BaSIC"
+BENCHMARK_DIR = Path(__file__).resolve().parent.parent
+BASIC_DIR = str(BENCHMARK_DIR.parent / "3. BaSIC")
 os.chdir(BASIC_DIR)
 sys.path.insert(0, BASIC_DIR)
 
@@ -23,10 +25,7 @@ from src.simulate_ODEs.simulate import simulate_ode
 SYSTEMS = ["lotka_volterra", "chain", "seir", "goldbeter", "yeast_glycolysis"]
 SYSTEM_DIR = os.path.join(BASIC_DIR, "systems")
 
-OUTPUT_PATH = (
-    "/Users/clemencemetayer/Documents/Doctorat/13. BASIC/"
-    "4. Benchmark hyperparameters BaSIC/system_trajectories.png"
-)
+OUTPUT_PATH = str(BENCHMARK_DIR / "figures" / "system_trajectories.png")
 
 # ── Load configs and rhs functions ──────────────────────────────────────────
 
