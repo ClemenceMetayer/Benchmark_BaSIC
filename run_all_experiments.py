@@ -277,6 +277,7 @@ def run_single_experiment(system_name, run_config, skip_refit=False,
     env = os.environ.copy()
     JAX_CACHE_DIR.mkdir(exist_ok=True)
     env["JAX_COMPILATION_CACHE_DIR"] = str(JAX_CACHE_DIR)
+    env["PYTHONIOENCODING"] = "utf-8"
 
     try:
         # ── Step 1: BaSIC pipeline ──
